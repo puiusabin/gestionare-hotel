@@ -1,0 +1,50 @@
+@startuml Hotel Reservation System - ERD
+
+!define Table(name,desc) class name as "desc" << (T,#FFAAAA) >>
+!define primary_key(x) <b>x</b>
+!define foreign_key(x) <i>x</i>
+!define unique(x) <u>x</u>
+
+hide methods
+hide stereotypes
+
+entity "users" as users {
+  primary_key(id): INT
+  --
+  unique(email): VARCHAR(255)
+  password: VARCHAR(255)
+  first_name: VARCHAR(100)
+  last_name: VARCHAR(100)
+  phone: VARCHAR(20)
+  role: ENUM('guest', 'admin')
+  created_at: TIMESTAMP
+}
+
+entity "rooms" as rooms {
+  primary_key(id): INT
+  --
+  unique(room_number): VARCHAR(10)
+  room_type: ENUM('single', 'double', 'suite')
+  capacity: INT
+  price_per_night: DECIMAL(10,2)
+  description: TEXT
+  image_url: VARCHAR(255)
+  is_available: BOOLEAN
+}
+
+entity "reservations" as reservations {
+  primary_key(id): INT
+  --
+  foreign_key(user_id): INT
+  foreign_key(room_id): INT
+  check_in_date: DATE
+  check_out_date: DATE
+  total_price: DECIMAL(10,2)
+  status: ENUM('pending', 'confirmed', 'cancelled', 'completed')
+  created_at: TIMESTAMP
+}
+
+users ||--o{ reservations : "makes"
+rooms ||--o{ reservations : "has"
+
+@enduml

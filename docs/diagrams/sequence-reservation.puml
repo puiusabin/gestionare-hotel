@@ -1,0 +1,34 @@
+@startuml Reservation Flow - Sequence Diagram
+
+actor Guest
+participant "Web Interface" as UI
+participant "Reservation Controller" as Controller
+participant "Database" as DB
+participant "Email Service" as Email
+
+Guest -> UI: Select check-in and check-out dates
+UI -> Controller: Search available rooms
+
+Controller -> DB: Query rooms with no overlapping reservations
+DB --> Controller: Return available rooms
+Controller --> UI: Display available rooms
+
+Guest -> UI: Select room and confirm booking
+UI -> Controller: Create reservation request
+
+Controller -> DB: Check room availability again
+DB --> Controller: Confirm availability
+
+alt Room is available
+    Controller -> DB: Insert reservation record
+    DB --> Controller: Reservation created
+    Controller -> Email: Send confirmation email
+    Email --> Guest: Confirmation email
+    Controller --> UI: Show success message
+    UI --> Guest: Display reservation details
+else Room not available
+    Controller --> UI: Show error message
+    UI --> Guest: Room no longer available
+end
+
+@enduml

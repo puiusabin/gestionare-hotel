@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem de Rezervari Hotel - Tema 1</title>
+    <style>
+        body {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #4f4f4f;
+            background: #ededed;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .line {
+            display: flex;
+            margin: 0;
+            padding: 2px 0;
+        }
+
+        .line-number {
+            color: #999;
+            text-align: right;
+            padding-right: 20px;
+            min-width: 45px;
+            user-select: none;
+        }
+
+        .line-content {
+            flex: 1;
+        }
+
+        .line-content img {
+            display: block;
+            max-width: 100%;
+            margin: 10px 0;
+        }
+
+        .highlight {
+            background: #ffff00;
+            padding: 1px 2px;
+        }
+
+        a {
+            color: #0000ff;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 5px 0;
+        }
+
+        th, td {
+            border: 1px solid #4f4f4f;
+            padding: 4px 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+<div class="line"><span class="line-number">1</span><span class="line-content"><span class="highlight">Sistem de Rezervari Hotel - Proiect Dezvoltarea Aplicatiilor Web (PHP)</span></span></div>
+<div class="line"><span class="line-number">2</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">3</span><span class="line-content"><span class="highlight">Descriere Aplicatie</span></span></div>
+<div class="line"><span class="line-number">4</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">5</span><span class="line-content">Sistemul de rezervari hotel este o aplicatie web care permite utilizatorilor sa vizualizeze</span></div>
+<div class="line"><span class="line-number">6</span><span class="line-content">camere disponibile, sa faca rezervari si sa le gestioneze. Administratorii pot gestiona</span></div>
+<div class="line"><span class="line-number">7</span><span class="line-content">camerele disponibile in sistem.</span></div>
+<div class="line"><span class="line-number">8</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">9</span><span class="line-content">Obiective Principale:</span></div>
+<div class="line"><span class="line-number">10</span><span class="line-content">  - Facilitarea procesului de rezervare pentru clienti</span></div>
+<div class="line"><span class="line-number">11</span><span class="line-content">  - Gestionarea eficienta a camerelor de hotel</span></div>
+<div class="line"><span class="line-number">12</span><span class="line-content">  - Prevenirea suprapunerilor de rezervari</span></div>
+<div class="line"><span class="line-number">13</span><span class="line-content">  - Notificari automate prin email</span></div>
+<div class="line"><span class="line-number">14</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">15</span><span class="line-content"><span class="highlight">Arhitectura Aplicatiei</span></span></div>
+<div class="line"><span class="line-number">16</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">17</span><span class="line-content">Roluri Utilizatori:</span></div>
+<div class="line"><span class="line-number">18</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">19</span><span class="line-content">Guest (Vizitator/Client):</span></div>
+<div class="line"><span class="line-number">20</span><span class="line-content">  - Inregistrare cont nou</span></div>
+<div class="line"><span class="line-number">21</span><span class="line-content">  - Autentificare in sistem</span></div>
+<div class="line"><span class="line-number">22</span><span class="line-content">  - Vizualizare camere disponibile</span></div>
+<div class="line"><span class="line-number">23</span><span class="line-content">  - Cautare camere cu filtre</span></div>
+<div class="line"><span class="line-number">24</span><span class="line-content">  - Realizare rezervari</span></div>
+<div class="line"><span class="line-number">25</span><span class="line-content">  - Vizualizare propriile rezervari</span></div>
+<div class="line"><span class="line-number">26</span><span class="line-content">  - Anulare rezervari</span></div>
+<div class="line"><span class="line-number">27</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">28</span><span class="line-content">Admin (Administrator):</span></div>
+<div class="line"><span class="line-number">29</span><span class="line-content">  - Autentificare in sistem</span></div>
+<div class="line"><span class="line-number">30</span><span class="line-content">  - Adaugare camere noi</span></div>
+<div class="line"><span class="line-number">31</span><span class="line-content">  - Editare detalii camere</span></div>
+<div class="line"><span class="line-number">32</span><span class="line-content">  - Stergere camere</span></div>
+<div class="line"><span class="line-number">33</span><span class="line-content">  - Vizualizare toate rezervarile</span></div>
+<div class="line"><span class="line-number">34</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">35</span><span class="line-content">Entitati Principale:</span></div>
+<div class="line"><span class="line-number">36</span><span class="line-content">  - Users: utilizatori ai sistemului (clienti si administratori)</span></div>
+<div class="line"><span class="line-number">37</span><span class="line-content">  - Rooms: camere disponibile pentru rezervare</span></div>
+<div class="line"><span class="line-number">38</span><span class="line-content">  - Reservations: rezervari efectuate de clienti</span></div>
+<div class="line"><span class="line-number">39</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">40</span><span class="line-content">Componente Principale:</span></div>
+<div class="line"><span class="line-number">41</span><span class="line-content">  - Modul Autentificare: login/logout, sesiuni, control acces</span></div>
+<div class="line"><span class="line-number">42</span><span class="line-content">  - Modul Rezervari: verificare disponibilitate, creare rezervari</span></div>
+<div class="line"><span class="line-number">43</span><span class="line-content">  - Modul Gestiune Camere: adaugare/editare/stergere camere</span></div>
+<div class="line"><span class="line-number">44</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">45</span><span class="line-content">Procesul de Rezervare:</span></div>
+<div class="line"><span class="line-number">46</span><span class="line-content">  1. Clientul selecteaza datele de check-in si check-out</span></div>
+<div class="line"><span class="line-number">47</span><span class="line-content">  2. Sistemul cauta camerele disponibile</span></div>
+<div class="line"><span class="line-number">48</span><span class="line-content">  3. Clientul alege o camera si confirma rezervarea</span></div>
+<div class="line"><span class="line-number">49</span><span class="line-content">  4. Sistemul verifica din nou disponibilitatea</span></div>
+<div class="line"><span class="line-number">50</span><span class="line-content">  5. Rezervarea este creata in baza de date</span></div>
+<div class="line"><span class="line-number">51</span><span class="line-content">  6. Email de confirmare este trimis clientului</span></div>
+<div class="line"><span class="line-number">52</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">53</span><span class="line-content"><span class="highlight">Baza de Date</span></span></div>
+<div class="line"><span class="line-number">54</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">55</span><span class="line-content">Schema Bazei de Date:</span></div>
+<div class="line"><span class="line-number">56</span><span class="line-content">  - users → reservations (one-to-many)</span></div>
+<div class="line"><span class="line-number">57</span><span class="line-content">  - rooms → reservations (one-to-many)</span></div>
+<div class="line"><span class="line-number">58</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">59</span><span class="line-content">Tabel users:</span></div>
+<div class="line"><span class="line-number">60</span><span class="line-content">  - id (INT, PRIMARY KEY, AUTO_INCREMENT)</span></div>
+<div class="line"><span class="line-number">61</span><span class="line-content">  - email (VARCHAR(255), UNIQUE, NOT NULL)</span></div>
+<div class="line"><span class="line-number">62</span><span class="line-content">  - password (VARCHAR(255), NOT NULL, hashed)</span></div>
+<div class="line"><span class="line-number">63</span><span class="line-content">  - first_name (VARCHAR(100), NOT NULL)</span></div>
+<div class="line"><span class="line-number">64</span><span class="line-content">  - last_name (VARCHAR(100), NOT NULL)</span></div>
+<div class="line"><span class="line-number">65</span><span class="line-content">  - phone (VARCHAR(20))</span></div>
+<div class="line"><span class="line-number">66</span><span class="line-content">  - role (ENUM('guest', 'admin'), DEFAULT 'guest')</span></div>
+<div class="line"><span class="line-number">67</span><span class="line-content">  - created_at (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP)</span></div>
+<div class="line"><span class="line-number">68</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">69</span><span class="line-content">Tabel rooms:</span></div>
+<div class="line"><span class="line-number">70</span><span class="line-content">  - id (INT, PRIMARY KEY, AUTO_INCREMENT)</span></div>
+<div class="line"><span class="line-number">71</span><span class="line-content">  - room_number (VARCHAR(10), UNIQUE, NOT NULL)</span></div>
+<div class="line"><span class="line-number">72</span><span class="line-content">  - room_type (ENUM('single', 'double', 'suite'), NOT NULL)</span></div>
+<div class="line"><span class="line-number">73</span><span class="line-content">  - capacity (INT, NOT NULL)</span></div>
+<div class="line"><span class="line-number">74</span><span class="line-content">  - price_per_night (DECIMAL(10,2), NOT NULL)</span></div>
+<div class="line"><span class="line-number">75</span><span class="line-content">  - description (TEXT)</span></div>
+<div class="line"><span class="line-number">76</span><span class="line-content">  - image_url (VARCHAR(255))</span></div>
+<div class="line"><span class="line-number">77</span><span class="line-content">  - is_available (BOOLEAN, DEFAULT TRUE)</span></div>
+<div class="line"><span class="line-number">78</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">79</span><span class="line-content">Tabel reservations:</span></div>
+<div class="line"><span class="line-number">80</span><span class="line-content">  - id (INT, PRIMARY KEY, AUTO_INCREMENT)</span></div>
+<div class="line"><span class="line-number">81</span><span class="line-content">  - user_id (INT, FOREIGN KEY → users(id))</span></div>
+<div class="line"><span class="line-number">82</span><span class="line-content">  - room_id (INT, FOREIGN KEY → rooms(id))</span></div>
+<div class="line"><span class="line-number">83</span><span class="line-content">  - check_in_date (DATE, NOT NULL)</span></div>
+<div class="line"><span class="line-number">84</span><span class="line-content">  - check_out_date (DATE, NOT NULL)</span></div>
+<div class="line"><span class="line-number">85</span><span class="line-content">  - total_price (DECIMAL(10,2), NOT NULL)</span></div>
+<div class="line"><span class="line-number">86</span><span class="line-content">  - status (ENUM('pending', 'confirmed', 'cancelled', 'completed'))</span></div>
+<div class="line"><span class="line-number">87</span><span class="line-content">  - created_at (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP)</span></div>
+<div class="line"><span class="line-number">88</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">89</span><span class="line-content"><span class="highlight">Diagrame UML</span></span></div>
+<div class="line"><span class="line-number">90</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">91</span><span class="line-content">Diagrame create folosind PlantUML:</span></div>
+<div class="line"><span class="line-number">92</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">93</span><span class="line-content">Diagrama Entitate-Relatie (ERD):</span></div>
+<div class="line"><span class="line-number">94</span><span class="line-content"><img src="https://www.plantuml.com/plantuml/png/ZPDTRzem68Nl_Ikyx08YWTOXzGOXrAnDLQH29vfDkxES-8LO-2FpHrVKxh_F9WE2KBToPP_7nkSSlRcoZXhdfS1tse70Ix1WdgZZMk77hNKWyH3donk4FZ1OSGMueAM0lg8I1WnibU9AK6jn532rE8bYWYSJt2y67szli_1ByNHwkDyOBgdPaWri-yyfdfJJvycdyiXNsW1VgmFdaVCZzuh_zB13FY8_HQZc3B04LsjcsqrmRa2xRGCM8L2EkorEVCXca-Xojy8l29_OuImTuzcY2F9mYF3-AP2KYq2-PylhkspP7rrUfl5cYFrB6tO6LjnOHs8XH_JvuY8YGTyYJQrLHntjHAD5qFB5jtc_j_PWNM-0UvH9hdeHLmQe0qQe6-DYDiyVYsp-5Vq-1ZPQopPmNBqxS3nCb9SbcBHhjBKKMEZruCjojHOGZJ7jotPbFNVGMgGDhOAN_JFXzGf80uOelgw3xvlyUZRFxiE_3qRnGXmVmviuW25K_YDU2eRNGBmHPrLpI-WJvOAMiQWl3m_tUROuQU0upsqHNU6_VNHdCOuCwHpeibXAbrKrL1l25M7KGSYO5Vb1rTwToauxAiYkcFCwhAFEsttN3IWMweuLLrg5EPF0TXkgAX3YxqRBHe03zkyPQJ-1rzVXKB-SjZB6YQGRi0cAkTuyKzDm0bq5IruAz0S0" alt="ERD Diagram"></span></div>
+<div class="line"><span class="line-number">95</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">96</span><span class="line-content">Diagrama de Secventa</span></div>
+<div class="line"><span class="line-number">97</span><span class="line-content"><img src="https://www.plantuml.com/plantuml/png/VLBDRjim3BxhAOZUym8z34NYRSXn2OgT6PbrXCgYIz49-lQJP0EAFICN0J8_VZ-V_1OLHSVUmuaYoGtLSO1Vdk-mWpDzZHGiGUEm4-oDGQiiy7kag6P0KMVTW47XvIzTu1YKv0CjlG16U3yk4O_y1mugx3r9WTRhSgL1nGl6YQ_PBuS_UtGUpedJpOhbYp757Un-90UlQUx9AjWhsS-T2u2XdIyyAhIe5CtxCQEhYRo5Og-0jqI85qyWp7qqfcBoHhD_XJyZoVSqXhlJAmG6lf5u70ONEf2QEffc3xkLqebqbB1MMWZDIHeN1u_VQ-XstZoQidBuSDB3XVap-Td8UX12fKUZ8FILERVo7d9tC_ran7cdoLM7Bcm5F4m65cXZq2kSCecBDP010FXVyXWYYQuCMfQsu3SxhKXRqhKRrELloONLbgOLoeEyC44AVUauXTd6RRpM-SftYAEr52FqwS2kv4l3IbWVzJ5SIvg8eo4VQIefiDQMdYgI2CiJlPaEF8UEv86KGclCMph7tfj_" alt="Use Case Diagram"></span></div>
+<div class="line"><span class="line-number">98</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">99</span><span class="line-content">Diagrama use case</span></div>
+<div class="line"><span class="line-number">100</span><span class="line-content"><img src="https://www.plantuml.com/plantuml/png/TPB1Rjim38RlUWeYznPLKcVjK0Jrqcuxh3kawEwgn3f4QGcGv0R6i7UVxLYRr6Kt__m-aoAasn2LZrtBWl4bGdJWgTb7CEHHHt9M2AMZyx3uqc682r01cl4hbMlJaftAQlmIOlnFsOOH5bzTH8OT1lHlQcm6Zts8s2xWfm3e0ceL1cs73Grb3xNMhhF78KzRcJlVN4Ds1iiSVFBk413gDqMidXbXvrmRPdELcu-elDuVEJpty9auea_gPQu-g5VCppqxLUxy83p0GvzhgTSwzxRAQkGJtJw8SgHLJNdwgvpNni1tF4p2pAzpVcyeJX3kC2hYr4HUvDOTCaRCcqZvpr8rywcjvFB4UPy6xO-m4iNYUzIlqwXqEyGK-oHNvTrO0rjdNyYtqr2uRnLnSjVYbn3JiuEpiyrOATAoIAiYNHQfAjAwICDzJ4yuDItILP5a2SV51mNEnt0D7-7cXgpcpk1cynV8Y_yI-OuCg8Bp8wjAbgFrEtIBrdGj_mO0" alt="Sequence Diagram"></span></div>
+<div class="line"><span class="line-number">101</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">102</span><span class="line-content"><span class="highlight">Tehnologii Propuse</span></span></div>
+<div class="line"><span class="line-number">103</span><span class="line-content"></span></div>
+<div class="line"><span class="line-number">104</span><span class="line-content">Backend: PHP 7.4+, MySQL/MariaDB, PDO</span></div>
+<div class="line"><span class="line-number">105</span><span class="line-content">Frontend: HTML5, CSS3, JavaScript</span></div>
+<div class="line"><span class="line-number">106</span><span class="line-content">Securitate: password_hash, prepared statements, session management</span></div>
+<div class="line"><span class="line-number">107</span><span class="line-content">Integrari: PHPMailer, FPDF/TCPDF, API extern</span></div>
+<div class="line"><span class="line-number">108</span><span class="line-content"></span></div>
+</div>
+
+</body>
+</html>

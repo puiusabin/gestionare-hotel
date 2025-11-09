@@ -1,0 +1,48 @@
+@startuml Hotel Reservation System - Use Cases
+
+left to right direction
+
+actor "Guest" as guest
+actor "Admin" as admin
+
+rectangle "Hotel Reservation System" {
+  usecase "Register Account" as UC1
+  usecase "Login" as UC2
+  usecase "Browse Available Rooms" as UC3
+  usecase "Search Rooms by Filters" as UC4
+  usecase "Make Reservation" as UC5
+  usecase "View My Reservations" as UC6
+  usecase "Cancel Reservation" as UC7
+
+  usecase "Manage Rooms" as UC8
+  usecase "Add New Room" as UC9
+  usecase "Edit Room Details" as UC10
+  usecase "Delete Room" as UC11
+  usecase "View All Reservations" as UC12
+  usecase "Manage Users" as UC13
+
+  usecase "Check Room Availability" as UC15
+  usecase "Send Confirmation Email" as UC16
+}
+
+guest --> UC1
+guest --> UC2
+guest --> UC3
+guest --> UC4
+guest --> UC5
+guest --> UC6
+guest --> UC7
+
+admin --> UC2
+admin --> UC8
+admin --> UC12
+admin --> UC13
+
+UC8 .> UC9 : <<include>>
+UC8 .> UC10 : <<include>>
+UC8 .> UC11 : <<include>>
+
+UC5 ..> UC15 : <<include>>
+UC5 ..> UC16 : <<include>>
+
+@enduml
