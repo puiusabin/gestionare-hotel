@@ -73,9 +73,3 @@ INSERT INTO rooms (room_number, room_type, capacity, price_per_night, descriptio
 -- Insert sample reservation
 INSERT INTO reservations (user_id, room_id, check_in_date, check_out_date, total_price, status) VALUES
 (2, 1, '2025-12-15', '2025-12-18', 450.00, 'confirmed');
-
--- Notes:
--- 1. Passwords in sample data are hashed versions of 'admin123' and 'guest123'
--- 2. To generate new password hashes in PHP: password_hash('your_password', PASSWORD_DEFAULT)
--- 3. The indexes are created for optimization of common queries
--- 4. Foreign key constraints ensure referential integrity
