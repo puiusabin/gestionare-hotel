@@ -39,6 +39,67 @@ class RoomController
     public function store()
     {
         requireAdmin();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: /rooms/create');
+            exit;
+        }
+
+        $roomNumber = trim($_POST['room_number'] ?? '');
+        $roomType = trim($_POST['room_type'] ?? '');
+        $capacity = trim($_POST['capacity'] ?? '');
+        $pricePerNight = trim($_POST['price_per_night'] ?? '');
+        $description = trim($_POST['description'] ?? '');
+        $isAvailable = isset($_POST['is_available']) ? 1 : 0;
+
+        $errors = [];
+
+        if (empty($roomNumber)) {
+            $errors[] = 'Room number is required';
+        }
+
+        if (empty($roomType)) {
+            $errors[] = 'Room type is required';
+        } elseif (!in_array($roomType, ['single', 'double', 'suite'])) {
+            $errors[] = 'Invalid room type';
+        }
+
+        if (empty($capacity)) {
+            $errors[] = 'Capacity is required';
+        } elseif (!is_numeric($capacity) || $capacity < 1) {
+            $errors[] = 'Capacity must be at least 1';
+        }
+
+        if (empty($pricePerNight)) {
+            $errors[] = 'Price per night is required';
+        } elseif (!is_numeric($pricePerNight) || $pricePerNight < 0) {
+            $errors[] = 'Price must be a positive number';
+        }
+
+        if (!empty($errors)) {
+            setFlashMessage('error', implode('. ', $errors));
+            header('Location: /rooms/create');
+            exit;
+        }
+
+        $roomId = $this->roomModel->create(
+            $roomNumber,
+            $roomType,
+            $capacity,
+            $pricePerNight,
+            !empty($description) ? $description : null,
+            null,
+            $isAvailable
+        );
+
+        if ($roomId) {
+            setFlashMessage('success', 'Room added successfully');
+            header('Location: /rooms');
+        } else {
+            setFlashMessage('error', 'Failed to add room. Please try again.');
+            header('Location: /rooms/create');
+        }
+        exit;
     }
 
     public function edit()
