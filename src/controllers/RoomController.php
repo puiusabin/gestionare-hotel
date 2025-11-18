@@ -212,5 +212,32 @@ class RoomController
     public function delete()
     {
         requireAdmin();
+
+        $id = $_GET['id'] ?? null;
+
+        if (!$id) {
+            setFlashMessage('error', 'Room ID is required');
+            header('Location: /rooms');
+            exit;
+        }
+
+        $room = $this->roomModel->findById($id);
+
+        if (!$room) {
+            setFlashMessage('error', 'Room not found');
+            header('Location: /rooms');
+            exit;
+        }
+
+        $success = $this->roomModel->delete($id);
+
+        if ($success) {
+            setFlashMessage('success', 'Room deleted successfully');
+        } else {
+            setFlashMessage('error', 'Failed to delete room. It may have existing reservations.');
+        }
+
+        header('Location: /rooms');
+        exit;
     }
 }
