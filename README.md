@@ -40,6 +40,60 @@ hotel-reservation/
 
 Deschide fisierul `tema1/index.html` in browser:
 
+## Tema 2 - Autentificare si CRUD
+
+### Functionalitati Implementate
+
+#### Sistem de Autentificare
+- **Inregistrare utilizatori** (`/register`)
+  - Validare email, parola (min 6 caractere)
+  - Hashing parole cu `password_hash()`
+  - Campuri obligatorii: email, parola, prenume, nume
+- **Login** (`/login`)
+  - Autentificare cu email si parola
+  - Sesiuni PHP
+  - Verificare parola cu `password_verify()`
+- **Logout** (`/logout`)
+  - Distrugere sesiune si redirectionare
+
+#### Operatiuni CRUD pentru Camere
+
+##### CREATE - Adaugare Camera (`/rooms/create`)
+- Formular pentru camere noi (numar, tip, capacitate, pret, descriere)
+- Validare: numar camera, tip (single/double/suite), capacitate, pret
+- Acces: doar administratori
+- Controller: `RoomController::store()`
+
+##### READ - Listare Camere (`/rooms`)
+- Afisare toate camerele in grid responsive
+- Filtrare dupa tip: All, Single, Double, Suite
+- Informatii afisate: numar camera, tip, capacitate, pret, status disponibilitate
+- Controller: `RoomController::index()`
+
+##### UPDATE - Editare Camera (`/rooms/edit?id=X`)
+- Formular pre-completat cu datele camerei
+- Validare identica cu CREATE
+- Acces: doar administratori
+- Controller: `RoomController::edit()`, `RoomController::update()`
+
+##### DELETE - Stergere Camera (`/rooms/delete?id=X`)
+- Confirmare stergere prin JavaScript
+- Verificare constrangeri: camera nu poate fi stearsa daca are rezervari
+- Acces: doar administratori
+- Controller: `RoomController::delete()`
+
+
+### Tehnologii Utilizate
+
+- **Backend**: PHP 7.4+
+- **Baza de date**: MySQL
+- **Frontend**: HTML5, CSS3 
+- **Securitate**:
+  - `password_hash()` / `password_verify()` pentru parole
+  - PDO prepared statements contra SQL injection
+  - `htmlspecialchars()` contra XSS
+  - Sesiuni PHP pentru autentificare
+
 ## Arhitectura Aplicatie
 
 ### Entitati Principale
@@ -50,16 +104,8 @@ Deschide fisierul `tema1/index.html` in browser:
 
 ### Roluri
 
-- **Guest** - Poate face rezervari si le poate gestiona
-- **Admin** - Poate gestiona camerele
-
-### Tehnologii Propuse
-
-- Backend: PHP 7.4+, MySQL
-- Frontend: HTML5, CSS3, JavaScript
-- Securitate: password_hash, PDO prepared statements
-- Integrari: PHPMailer, FPDF, API extern
-
+- **Guest** - Utilizator inregistrat, poate face rezervari 
+- **Admin** - Administrator, gestioneaza camerele 
 
 ## Autor
 
