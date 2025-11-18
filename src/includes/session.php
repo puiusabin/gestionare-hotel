@@ -1,24 +1,28 @@
 <?php
 
-function startSession() {
+function startSession()
+{
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
 }
 
-function isLoggedIn() {
+function isLoggedIn()
+{
     startSession();
     return isset($_SESSION['user_id']);
 }
 
-function requireAuth() {
+function requireAuth()
+{
     if (!isLoggedIn()) {
         header('Location: /login');
         exit;
     }
 }
 
-function requireAdmin() {
+function requireAdmin()
+{
     requireAuth();
     if ($_SESSION['user_role'] !== 'admin') {
         header('Location: /');
@@ -26,7 +30,8 @@ function requireAdmin() {
     }
 }
 
-function getCurrentUser() {
+function getCurrentUser()
+{
     startSession();
     if (!isLoggedIn()) {
         return null;
@@ -40,13 +45,15 @@ function getCurrentUser() {
     ];
 }
 
-function setFlashMessage($type, $message) {
+function setFlashMessage($type, $message)
+{
     startSession();
     $_SESSION['flash_type'] = $type;
     $_SESSION['flash_message'] = $message;
 }
 
-function getFlashMessage() {
+function getFlashMessage()
+{
     startSession();
     if (isset($_SESSION['flash_message'])) {
         $flash = [
@@ -60,7 +67,8 @@ function getFlashMessage() {
     return null;
 }
 
-function logout() {
+function logout()
+{
     startSession();
     session_destroy();
     header('Location: /login');

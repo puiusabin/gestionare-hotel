@@ -1,13 +1,15 @@
 <?php
 
-class Database {
+class Database
+{
     private $host = 'localhost';
     private $db_name = 'hotel_reservation';
     private $username = 'root';
     private $password = '';
     private $conn = null;
 
-    public function getConnection() {
+    public function getConnection()
+    {
         if ($this->conn === null) {
             try {
                 $this->conn = new PDO(
@@ -20,7 +22,7 @@ class Database {
                         PDO::ATTR_EMULATE_PREPARES => false
                     ]
                 );
-            } catch(PDOException $e) {
+            } catch (PDOException $e) {
                 die("Connection failed: " . $e->getMessage());
             }
         }

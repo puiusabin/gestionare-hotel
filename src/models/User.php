@@ -2,15 +2,18 @@
 
 require_once __DIR__ . '/../config/database.php';
 
-class User {
+class User
+{
     private $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $database = new Database();
         $this->conn = $database->getConnection();
     }
 
-    public function create($email, $password, $firstName, $lastName, $phone = null, $role = 'guest') {
+    public function create($email, $password, $firstName, $lastName, $phone = null, $role = 'guest')
+    {
         $query = "INSERT INTO users (email, password, first_name, last_name, phone, role)
                   VALUES (:email, :password, :first_name, :last_name, :phone, :role)";
 
@@ -32,7 +35,8 @@ class User {
         return false;
     }
 
-    public function findByEmail($email) {
+    public function findByEmail($email)
+    {
         $query = "SELECT * FROM users WHERE email = :email LIMIT 1";
 
         $stmt = $this->conn->prepare($query);
@@ -42,7 +46,8 @@ class User {
         return $stmt->fetch();
     }
 
-    public function findById($id) {
+    public function findById($id)
+    {
         $query = "SELECT * FROM users WHERE id = :id LIMIT 1";
 
         $stmt = $this->conn->prepare($query);
@@ -52,11 +57,13 @@ class User {
         return $stmt->fetch();
     }
 
-    public function verifyPassword($plainPassword, $hashedPassword) {
+    public function verifyPassword($plainPassword, $hashedPassword)
+    {
         return password_verify($plainPassword, $hashedPassword);
     }
 
-    public function emailExists($email) {
+    public function emailExists($email)
+    {
         $user = $this->findByEmail($email);
         return $user !== false;
     }
