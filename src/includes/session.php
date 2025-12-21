@@ -2,12 +2,53 @@
 
 // Session and authentication helper functions
 
-// Start session if not already started
+function configureSecureSession()
+{
+    ini_set('session.cookie_httponly', '1');
+    ini_set('session.use_only_cookies', '1');
+    ini_set('session.cookie_secure', '0');
+    ini_set('session.use_strict_mode', '1');
+    ini_set('session.cookie_samesite', 'Strict');
+
+    ini_set('session.gc_maxlifetime', '1800');
+    ini_set('session.cookie_lifetime', '0');
+}
+
 function startSession()
 {
     if (session_status() === PHP_SESSION_NONE) {
+        configureSecureSession();
         session_start();
+
+        // Check for session timeout (30 minutes of inactivity)
+        if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 1800)) {
+            destroySession();
+            return;
+        }
+
+        // Update last activity timestamp
+        $_SESSION['last_activity'] = time();
     }
+}
+
+function destroySession()
+{
+    $_SESSION = array();
+
+    if (ini_get('session.use_cookies')) {
+        $params = session_get_cookie_params();
+        setcookie(
+            session_name(),
+            '',
+            time() - 42000,
+            $params['path'],
+            $params['domain'],
+            $params['secure'],
+            $params['httponly']
+        );
+    }
+
+    session_destroy();
 }
 
 // Check if user is logged in
@@ -80,7 +121,13 @@ function getFlashMessage()
 function logout()
 {
     startSession();
-    session_destroy();
+    destroySession();
     header('Location: /login');
     exit;
+}
+
+// Regenerate session ID on privilege escalation (e.g., login)
+function regenerateSessionOnLogin()
+{
+    session_regenerate_id(true);
 }

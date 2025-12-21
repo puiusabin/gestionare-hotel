@@ -117,6 +117,9 @@ class AuthController
             exit;
         }
 
+
+        regenerateSessionOnLogin();
+
         // Create session with user data
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_email'] = $user['email'];
