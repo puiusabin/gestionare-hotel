@@ -56,6 +56,14 @@ class RoomController
             exit;
         }
 
+        // Prevent form field injection
+        $expectedFields = ['csrf_token', 'room_number', 'room_type', 'capacity', 'price_per_night', 'description', 'is_available'];
+        if (!validateExpectedFields($expectedFields)) {
+            setFlashMessage('error', 'Invalid form submission');
+            header('Location: /rooms/create');
+            exit;
+        }
+
         $roomNumber = trim($_POST['room_number'] ?? '');
         $roomType = trim($_POST['room_type'] ?? '');
         $capacity = trim($_POST['capacity'] ?? '');
@@ -63,16 +71,17 @@ class RoomController
         $description = trim($_POST['description'] ?? '');
         $isAvailable = isset($_POST['is_available']) ? 1 : 0;
 
-        // Validate form inputs
         $errors = [];
 
         if (empty($roomNumber)) {
             $errors[] = 'Room number is required';
         }
 
+        // Whitelist validation for room_type
+        $allowedRoomTypes = ['single', 'double', 'suite'];
         if (empty($roomType)) {
             $errors[] = 'Room type is required';
-        } elseif (!in_array($roomType, ['single', 'double', 'suite'])) {
+        } elseif (!in_array($roomType, $allowedRoomTypes, true)) {
             $errors[] = 'Invalid room type';
         }
 
@@ -158,16 +167,15 @@ class RoomController
             exit;
         }
 
-        $id = $_POST['id'] ?? null;
-        $roomNumber = trim($_POST['room_number'] ?? '');
-        $roomType = trim($_POST['room_type'] ?? '');
-        $capacity = trim($_POST['capacity'] ?? '');
-        $pricePerNight = trim($_POST['price_per_night'] ?? '');
-        $description = trim($_POST['description'] ?? '');
-        $isAvailable = isset($_POST['is_available']) ? 1 : 0;
+        // Validate only expected fields are present
+        $expectedFields = ['csrf_token', 'id', 'room_number', 'room_type', 'capacity', 'price_per_night', 'description', 'is_available'];
+        if (!validateExpectedFields($expectedFields)) {
+            setFlashMessage('error', 'Invalid form submission');
+            header('Location: /rooms');
+            exit;
+        }
 
-        // Validate form inputs
-        $errors = [];
+        $id = $_POST['id'] ?? null;
 
         if (!$id) {
             setFlashMessage('error', 'Room ID is required');
@@ -182,13 +190,24 @@ class RoomController
             exit;
         }
 
+        $roomNumber = trim($_POST['room_number'] ?? '');
+        $roomType = trim($_POST['room_type'] ?? '');
+        $capacity = trim($_POST['capacity'] ?? '');
+        $pricePerNight = trim($_POST['price_per_night'] ?? '');
+        $description = trim($_POST['description'] ?? '');
+        $isAvailable = isset($_POST['is_available']) ? 1 : 0;
+
+        $errors = [];
+
         if (empty($roomNumber)) {
             $errors[] = 'Room number is required';
         }
 
+        // Whitelist validation for room_type
+        $allowedRoomTypes = ['single', 'double', 'suite'];
         if (empty($roomType)) {
             $errors[] = 'Room type is required';
-        } elseif (!in_array($roomType, ['single', 'double', 'suite'])) {
+        } elseif (!in_array($roomType, $allowedRoomTypes, true)) {
             $errors[] = 'Invalid room type';
         }
 

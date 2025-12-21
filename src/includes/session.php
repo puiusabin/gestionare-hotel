@@ -3,6 +3,7 @@
 // Session and authentication helper functions
 
 require_once __DIR__ . '/csrf.php';
+require_once __DIR__ . '/validation.php';
 
 function configureSecureSession()
 {

@@ -36,6 +36,14 @@ class AuthController
             exit;
         }
 
+        // Prevent form field injection
+        $expectedFields = ['csrf_token', 'email', 'password', 'confirm_password', 'first_name', 'last_name', 'phone'];
+        if (!validateExpectedFields($expectedFields)) {
+            setFlashMessage('error', 'Invalid form submission');
+            header('Location: /register');
+            exit;
+        }
+
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
         $confirmPassword = $_POST['confirm_password'] ?? '';
