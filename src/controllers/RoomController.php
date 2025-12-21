@@ -49,6 +49,13 @@ class RoomController
             exit;
         }
 
+        // Validate CSRF token
+        if (!validateCsrfToken()) {
+            setFlashMessage('error', 'Invalid security token. Please try again.');
+            header('Location: /rooms/create');
+            exit;
+        }
+
         $roomNumber = trim($_POST['room_number'] ?? '');
         $roomType = trim($_POST['room_type'] ?? '');
         $capacity = trim($_POST['capacity'] ?? '');
@@ -140,6 +147,13 @@ class RoomController
         requireAdmin();
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: /rooms');
+            exit;
+        }
+
+        // Validate CSRF token
+        if (!validateCsrfToken()) {
+            setFlashMessage('error', 'Invalid security token. Please try again.');
             header('Location: /rooms');
             exit;
         }

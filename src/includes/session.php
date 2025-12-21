@@ -2,6 +2,8 @@
 
 // Session and authentication helper functions
 
+require_once __DIR__ . '/csrf.php';
+
 function configureSecureSession()
 {
     ini_set('session.cookie_httponly', '1');

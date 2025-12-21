@@ -2,6 +2,7 @@
     <h1>Login</h1>
 
     <form method="POST" action="/login">
+        <?php csrfField(); ?>
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required>

@@ -29,6 +29,13 @@ class AuthController
             exit;
         }
 
+        // Validate CSRF token
+        if (!validateCsrfToken()) {
+            setFlashMessage('error', 'Invalid security token. Please try again.');
+            header('Location: /register');
+            exit;
+        }
+
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
         $confirmPassword = $_POST['confirm_password'] ?? '';
@@ -96,6 +103,13 @@ class AuthController
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: /login');
+            exit;
+        }
+
+        // Validate CSRF token
+        if (!validateCsrfToken()) {
+            setFlashMessage('error', 'Invalid security token. Please try again.');
             header('Location: /login');
             exit;
         }

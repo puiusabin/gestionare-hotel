@@ -2,6 +2,7 @@
     <h1>Add New Room</h1>
 
     <form method="POST" action="/rooms/store">
+        <?php csrfField(); ?>
         <div class="form-group">
             <label for="room_number">Room Number *</label>
             <input type="text" id="room_number" name="room_number" required>

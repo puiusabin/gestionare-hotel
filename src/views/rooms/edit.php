@@ -2,6 +2,7 @@
     <h1>Edit Room</h1>
 
     <form method="POST" action="/rooms/update">
+        <?php csrfField(); ?>
         <input type="hidden" name="id" value="<?php echo htmlspecialchars($room['id']); ?>">
 
         <div class="form-group">
