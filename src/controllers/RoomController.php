@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../models/Room.php';
 
+// Handles room CRUD operations
 class RoomController
 {
     private $roomModel;
@@ -11,6 +12,7 @@ class RoomController
         $this->roomModel = new Room();
     }
 
+    // Display list of rooms with optional type filter
     public function index()
     {
         $filterType = $_GET['type'] ?? null;
@@ -27,6 +29,7 @@ class RoomController
         require_once __DIR__ . '/../views/layout/footer.php';
     }
 
+    // Display create room form (admin only)
     public function create()
     {
         requireAdmin();
@@ -36,6 +39,7 @@ class RoomController
         require_once __DIR__ . '/../views/layout/footer.php';
     }
 
+    // Process create room form submission (admin only)
     public function store()
     {
         requireAdmin();
@@ -52,6 +56,7 @@ class RoomController
         $description = trim($_POST['description'] ?? '');
         $isAvailable = isset($_POST['is_available']) ? 1 : 0;
 
+        // Validate form inputs
         $errors = [];
 
         if (empty($roomNumber)) {
@@ -102,6 +107,7 @@ class RoomController
         exit;
     }
 
+    // Display edit room form (admin only)
     public function edit()
     {
         requireAdmin();
@@ -128,6 +134,7 @@ class RoomController
         require_once __DIR__ . '/../views/layout/footer.php';
     }
 
+    // Process edit room form submission (admin only)
     public function update()
     {
         requireAdmin();
@@ -145,6 +152,7 @@ class RoomController
         $description = trim($_POST['description'] ?? '');
         $isAvailable = isset($_POST['is_available']) ? 1 : 0;
 
+        // Validate form inputs
         $errors = [];
 
         if (!$id) {
@@ -209,6 +217,7 @@ class RoomController
         exit;
     }
 
+    // Delete room by ID (admin only)
     public function delete()
     {
         requireAdmin();

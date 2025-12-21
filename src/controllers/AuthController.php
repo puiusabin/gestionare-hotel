@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../models/User.php';
 
+// Handles user authentication (register, login, logout)
 class AuthController
 {
     private $userModel;
@@ -11,6 +12,7 @@ class AuthController
         $this->userModel = new User();
     }
 
+    // Display registration form
     public function showRegister()
     {
         $title = 'Register - Hotel Reservation System';
@@ -19,6 +21,7 @@ class AuthController
         require_once __DIR__ . '/../views/layout/footer.php';
     }
 
+    // Process registration form submission
     public function register()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -35,6 +38,7 @@ class AuthController
 
         $errors = [];
 
+        // Validate email
         if (empty($email)) {
             $errors[] = 'Email is required';
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -79,6 +83,7 @@ class AuthController
         exit;
     }
 
+    // Display login form
     public function showLogin()
     {
         $title = 'Login - Hotel Reservation System';
@@ -87,6 +92,7 @@ class AuthController
         require_once __DIR__ . '/../views/layout/footer.php';
     }
 
+    // Process login form submission
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -111,6 +117,7 @@ class AuthController
             exit;
         }
 
+        // Create session with user data
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_email'] = $user['email'];
         $_SESSION['user_first_name'] = $user['first_name'];
@@ -122,6 +129,7 @@ class AuthController
         exit;
     }
 
+    // Logout user and destroy session
     public function logout()
     {
         logout();

@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../config/database.php';
 
+// Room model handles room operations
 class Room
 {
     private $conn;
@@ -12,6 +13,7 @@ class Room
         $this->conn = $database->getConnection();
     }
 
+    // Get all rooms ordered by room number
     public function findAll()
     {
         $query = "SELECT * FROM rooms ORDER BY room_number ASC";
@@ -20,6 +22,7 @@ class Room
         return $stmt->fetchAll();
     }
 
+    // Find room by ID, returns room array or false
     public function findById($id)
     {
         $query = "SELECT * FROM rooms WHERE id = :id LIMIT 1";
@@ -29,6 +32,7 @@ class Room
         return $stmt->fetch();
     }
 
+    // Get only available rooms
     public function findAvailable()
     {
         $query = "SELECT * FROM rooms WHERE is_available = 1 ORDER BY room_number ASC";
@@ -37,6 +41,7 @@ class Room
         return $stmt->fetchAll();
     }
 
+    // Filter rooms by type (single, double, suite)
     public function findByType($type)
     {
         $query = "SELECT * FROM rooms WHERE room_type = :type ORDER BY room_number ASC";
@@ -46,6 +51,7 @@ class Room
         return $stmt->fetchAll();
     }
 
+    // Create new room, returns room ID on success
     public function create($roomNumber, $roomType, $capacity, $pricePerNight, $description = null, $imageUrl = null, $isAvailable = 1)
     {
         $query = "INSERT INTO rooms (room_number, room_type, capacity, price_per_night, description, image_url, is_available)
@@ -66,6 +72,7 @@ class Room
         return false;
     }
 
+    // Update existing room, returns true on success
     public function update($id, $roomNumber, $roomType, $capacity, $pricePerNight, $description = null, $imageUrl = null, $isAvailable = 1)
     {
         $query = "UPDATE rooms SET
@@ -91,6 +98,7 @@ class Room
         return $stmt->execute();
     }
 
+    // Delete room by ID, returns true on success
     public function delete($id)
     {
         $query = "DELETE FROM rooms WHERE id = :id";

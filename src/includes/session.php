@@ -1,5 +1,8 @@
 <?php
 
+// Session and authentication helper functions
+
+// Start session if not already started
 function startSession()
 {
     if (session_status() === PHP_SESSION_NONE) {
@@ -7,12 +10,14 @@ function startSession()
     }
 }
 
+// Check if user is logged in
 function isLoggedIn()
 {
     startSession();
     return isset($_SESSION['user_id']);
 }
 
+// Require user to be logged in, redirect to login if not
 function requireAuth()
 {
     if (!isLoggedIn()) {
@@ -21,6 +26,7 @@ function requireAuth()
     }
 }
 
+// Require user to be admin, redirect to home if not
 function requireAdmin()
 {
     requireAuth();
@@ -30,6 +36,7 @@ function requireAdmin()
     }
 }
 
+// Get current logged in user data, returns null if not logged in
 function getCurrentUser()
 {
     startSession();
@@ -45,6 +52,7 @@ function getCurrentUser()
     ];
 }
 
+// Store flash message in session for next page load
 function setFlashMessage($type, $message)
 {
     startSession();
@@ -52,6 +60,7 @@ function setFlashMessage($type, $message)
     $_SESSION['flash_message'] = $message;
 }
 
+// Get and clear flash message from session
 function getFlashMessage()
 {
     startSession();
@@ -67,6 +76,7 @@ function getFlashMessage()
     return null;
 }
 
+// Destroy session and redirect to login
 function logout()
 {
     startSession();
