@@ -36,6 +36,13 @@ class AuthController
             exit;
         }
 
+        // Validate request origin
+        if (!validateReferer()) {
+            setFlashMessage('error', 'Invalid request origin');
+            header('Location: /register');
+            exit;
+        }
+
         // Prevent form field injection
         $expectedFields = ['csrf_token', 'email', 'password', 'confirm_password', 'first_name', 'last_name', 'phone'];
         if (!validateExpectedFields($expectedFields)) {
@@ -118,6 +125,13 @@ class AuthController
         // Validate CSRF token
         if (!validateCsrfToken()) {
             setFlashMessage('error', 'Invalid security token. Please try again.');
+            header('Location: /login');
+            exit;
+        }
+
+        // Validate request origin
+        if (!validateReferer()) {
+            setFlashMessage('error', 'Invalid request origin');
             header('Location: /login');
             exit;
         }

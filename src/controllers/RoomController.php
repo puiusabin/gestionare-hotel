@@ -56,6 +56,13 @@ class RoomController
             exit;
         }
 
+        // Validate request origin
+        if (!validateReferer()) {
+            setFlashMessage('error', 'Invalid request origin');
+            header('Location: /rooms/create');
+            exit;
+        }
+
         // Prevent form field injection
         $expectedFields = ['csrf_token', 'room_number', 'room_type', 'capacity', 'price_per_night', 'description', 'is_available'];
         if (!validateExpectedFields($expectedFields)) {
@@ -163,6 +170,13 @@ class RoomController
         // Validate CSRF token
         if (!validateCsrfToken()) {
             setFlashMessage('error', 'Invalid security token. Please try again.');
+            header('Location: /rooms');
+            exit;
+        }
+
+        // Validate request origin
+        if (!validateReferer()) {
+            setFlashMessage('error', 'Invalid request origin');
             header('Location: /rooms');
             exit;
         }

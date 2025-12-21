@@ -4,6 +4,7 @@
 
 require_once __DIR__ . '/csrf.php';
 require_once __DIR__ . '/validation.php';
+require_once __DIR__ . '/request.php';
 
 function configureSecureSession()
 {
