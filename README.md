@@ -87,12 +87,50 @@ Deschide fisierul `tema1/index.html` in browser:
 
 - **Backend**: PHP 7.4+
 - **Baza de date**: MySQL
-- **Frontend**: HTML5, CSS3 
-- **Securitate**:
-  - `password_hash()` / `password_verify()` pentru parole
-  - PDO prepared statements contra SQL injection
-  - `htmlspecialchars()` contra XSS
-  - Sesiuni PHP pentru autentificare
+- **Frontend**: HTML5, CSS3
+- **Web Server**: Apache cu mod_rewrite
+
+## Tema 3 - Securitate
+
+### Protectii Implementate
+
+**1. CSRF**
+- Token-uri CSRF pe toate formularele
+- Validare token la fiecare POST
+
+**2. XSS**
+- `htmlspecialchars()` pe toate output-urile
+- Escapare HTML pentru date utilizatori
+
+**3. SQL Injection**
+- PDO prepared statements
+- Binding parametri
+
+**4. Form Spoofing**
+- Validare whitelist campuri
+- Verificare tipuri date
+
+**5. HTTP Request Spoofing**
+- Validare HTTP Referer
+- Verificare metoda request
+
+**6. Control Acces**
+- Verificare rol admin (`requireAdmin()`)
+- Separare guest vs admin
+
+**7. Protectie Boti**
+- Google reCAPTCHA v3 pe login/register
+
+**8. Sesiuni Securizate**
+- Cookie httponly, SameSite=Strict
+- Timeout 30 minute
+- Regenerare ID la login
+
+### Setup reCAPTCHA
+
+1. Obtine chei: https://console.cloud.google.com/security/recaptcha
+2. Copiaza `src/config/recaptcha.example.php` la `src/config/recaptcha.php`
+3. Adauga cheile in config
 
 ## Arhitectura Aplicatie
 
