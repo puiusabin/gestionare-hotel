@@ -43,6 +43,13 @@ class AuthController
             exit;
         }
 
+        // Validate reCAPTCHA
+        if (!validateRecaptcha()) {
+            setFlashMessage('error', 'Please complete the reCAPTCHA verification');
+            header('Location: /register');
+            exit;
+        }
+
         // Prevent form field injection
         $expectedFields = ['csrf_token', 'email', 'password', 'confirm_password', 'first_name', 'last_name', 'phone'];
         if (!validateExpectedFields($expectedFields)) {
@@ -132,6 +139,13 @@ class AuthController
         // Validate request origin
         if (!validateReferer()) {
             setFlashMessage('error', 'Invalid request origin');
+            header('Location: /login');
+            exit;
+        }
+
+        // Validate reCAPTCHA
+        if (!validateRecaptcha()) {
+            setFlashMessage('error', 'Please complete the reCAPTCHA verification');
             header('Location: /login');
             exit;
         }

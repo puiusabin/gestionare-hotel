@@ -33,6 +33,8 @@
             <input type="tel" id="phone" name="phone">
         </div>
 
+        <?php recaptchaField(); ?>
+
         <button type="submit" class="btn btn-primary">Register</button>
     </form>
 

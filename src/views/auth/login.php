@@ -13,6 +13,8 @@
             <input type="password" id="password" name="password" required>
         </div>
 
+        <?php recaptchaField(); ?>
+
         <button type="submit" class="btn btn-primary">Login</button>
     </form>
 
