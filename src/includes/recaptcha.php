@@ -52,7 +52,15 @@ function validateRecaptcha()
 
     $resultJson = json_decode($result, true);
 
-    return isset($resultJson['success']) && $resultJson['success'] === true;
+    if (!isset($resultJson['success']) || $resultJson['success'] !== true) {
+        return false;
+    }
+
+    if (isset($resultJson['score'])) {
+        return $resultJson['score'] >= 0.5;
+    }
+
+    return true;
 }
 
 function recaptchaField()
@@ -61,7 +69,7 @@ function recaptchaField()
         return;
     }
 
-    echo '<div class="g-recaptcha" data-sitekey="' . htmlspecialchars(RECAPTCHA_SITE_KEY) . '"></div>';
+    echo '<input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">';
 }
 
 function recaptchaScript()
@@ -70,5 +78,32 @@ function recaptchaScript()
         return;
     }
 
-    echo '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
+    echo '<script src="https://www.google.com/recaptcha/api.js?render=' . htmlspecialchars(RECAPTCHA_SITE_KEY) . '"></script>';
+}
+
+function recaptchaExecute($action = 'submit')
+{
+    if (!isRecaptchaEnabled()) {
+        return;
+    }
+
+    ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('form');
+            forms.forEach(function(form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    grecaptcha.ready(function() {
+                        grecaptcha.execute('<?php echo htmlspecialchars(RECAPTCHA_SITE_KEY); ?>', {action: '<?php echo htmlspecialchars($action); ?>'})
+                            .then(function(token) {
+                                document.getElementById('g-recaptcha-response').value = token;
+                                form.submit();
+                            });
+                    });
+                });
+            });
+        });
+    </script>
+    <?php
 }

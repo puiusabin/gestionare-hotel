@@ -18,5 +18,7 @@
         <button type="submit" class="btn btn-primary">Login</button>
     </form>
 
+    <?php recaptchaExecute('login'); ?>
+
     <p style="margin-top: 20px;">Don't have an account? <a href="/register">Register here</a></p>
 </div>
