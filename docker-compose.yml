@@ -15,19 +15,14 @@ services:
     ports:
       - "8080:80"
     environment:
-      # Database connection (matches 'db' service name)
       MYSQLHOST: db
       MYSQLDATABASE: hotel_reservation
       MYSQLUSER: root
       MYSQLPASSWORD: ""
       MYSQLPORT: 3306
-      # Add your actual keys here or in .env
-      OPENWEATHER_API_KEY: ${OPENWEATHER_API_KEY:-your_key}
-      MAIL_HOST: ${MAIL_HOST:-smtp.gmail.com}
-      MAIL_USERNAME: ${MAIL_USERNAME}
-      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      APP_ENV: local
     volumes:
-      - .:/var/www/html
+      - .:/app
     depends_on:
       - db
 
