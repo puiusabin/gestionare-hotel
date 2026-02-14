@@ -2,18 +2,41 @@
 
 class Database
 {
-    private $host = 'localhost';
-    private $db_name = 'hotel_reservation';
-    private $username = 'root';
-    private $password = '';
+    private $host;
+    private $db_name;
+    private $username;
+    private $password;
     private $conn = null;
+
+    public function __construct()
+    {
+        // Prioritize Railway environment variables, fallback to defaults
+        $this->host = env('MYSQLHOST', 'localhost');
+        $this->db_name = env('MYSQLDATABASE', 'hotel_reservation');
+        $this->username = env('MYSQLUSER', 'root');
+        $this->password = env('MYSQLPASSWORD', '');
+        
+        $mysqlUrl = env('MYSQL_URL');
+        if ($mysqlUrl) {
+            $url = parse_url($mysqlUrl);
+            $this->host = $url['host'];
+            $this->db_name = ltrim($url['path'], '/');
+            $this->username = $url['user'];
+            $this->password = $url['pass'];
+        }
+    }
 
     public function getConnection()
     {
         if ($this->conn === null) {
             try {
+                $dsn = "mysql:host={$this->host};dbname={$this->db_name};charset=utf8mb4";
+                if (env('MYSQLPORT')) {
+                    $dsn .= ";port=" . env('MYSQLPORT');
+                }
+                
                 $this->conn = new PDO(
-                    "mysql:host={$this->host};dbname={$this->db_name};charset=utf8mb4",
+                    $dsn,
                     $this->username,
                     $this->password,
                     [
