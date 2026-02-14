@@ -1,0 +1,13 @@
+{
+    "name": "university/hotel-reservation",
+    "description": "Hotel Reservation System",
+    "type": "project",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "authors": [
+        {
+            "name": "Student"
+        }
+    ]
+}

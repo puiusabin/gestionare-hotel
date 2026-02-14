@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../src/includes/env.php';
 require_once __DIR__ . '/../src/includes/session.php';
 require_once __DIR__ . '/../src/includes/weather.php';
@@ -19,13 +20,15 @@ $routes = [
         '/rooms' => ['controller' => 'RoomController', 'action' => 'index'],
         '/rooms/create' => ['controller' => 'RoomController', 'action' => 'create'],
         '/rooms/edit' => ['controller' => 'RoomController', 'action' => 'edit'],
-        '/rooms/delete' => ['controller' => 'RoomController', 'action' => 'delete']
+        '/rooms/delete' => ['controller' => 'RoomController', 'action' => 'delete'],
+        '/contact' => ['controller' => 'ContactController', 'action' => 'index']
     ],
     'POST' => [
         '/register' => ['controller' => 'AuthController', 'action' => 'register'],
         '/login' => ['controller' => 'AuthController', 'action' => 'login'],
         '/rooms/store' => ['controller' => 'RoomController', 'action' => 'store'],
-        '/rooms/update' => ['controller' => 'RoomController', 'action' => 'update']
+        '/rooms/update' => ['controller' => 'RoomController', 'action' => 'update'],
+        '/contact/submit' => ['controller' => 'ContactController', 'action' => 'submit']
     ]
 ];
 

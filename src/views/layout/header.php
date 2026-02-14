@@ -19,6 +19,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
                     <?php if (isLoggedIn()): ?>
                         <?php $user = getCurrentUser(); ?>
                         <li class="nav-item"><a href="/rooms" class="nav-link">Rooms</a></li>
