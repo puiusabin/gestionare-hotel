@@ -2,10 +2,21 @@
 
 // Google reCAPTCHA integration
 
-$recaptchaConfig = require __DIR__ . '/../config/recaptcha.php';
+// Prioritize environment variables, fallback to config file if it exists
+$siteKey = env('RECAPTCHA_SITE_KEY');
+$secretKey = env('RECAPTCHA_SECRET_KEY');
 
-define('RECAPTCHA_SITE_KEY', $recaptchaConfig['site_key']);
-define('RECAPTCHA_SECRET_KEY', $recaptchaConfig['secret_key']);
+if (!$siteKey || !$secretKey) {
+    $configFile = __DIR__ . '/../config/recaptcha.php';
+    if (file_exists($configFile)) {
+        $recaptchaConfig = require $configFile;
+        $siteKey = $siteKey ?: ($recaptchaConfig['site_key'] ?? '');
+        $secretKey = $secretKey ?: ($recaptchaConfig['secret_key'] ?? '');
+    }
+}
+
+define('RECAPTCHA_SITE_KEY', $siteKey);
+define('RECAPTCHA_SECRET_KEY', $secretKey);
 
 function isRecaptchaEnabled()
 {
