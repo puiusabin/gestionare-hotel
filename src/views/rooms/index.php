@@ -8,6 +8,55 @@
         <?php endif; ?>
     </div>
 
+    <?php if (isLoggedIn() && getCurrentUser()['role'] === 'admin' && !empty($typeStats)): ?>
+        <div class="row mb-5">
+            <div class="col-md-6 offset-md-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-center mb-4">Room Type Distribution</h5>
+                        <canvas id="roomStatsChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const ctx = document.getElementById('roomStatsChart').getContext('2d');
+            const typeData = <?php echo json_encode($typeStats); ?>;
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: typeData.map(item => item.room_type.charAt(0).toUpperCase() + item.room_type.slice(1)),
+                    datasets: [{
+                        label: 'Number of Rooms',
+                        data: typeData.map(item => item.count),
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        }
+                    }
+                }
+            });
+        </script>
+    <?php endif; ?>
+
     <div class="room-filters">
         <a href="/rooms" class="btn <?php echo !isset($_GET['type']) ? 'btn-primary' : 'btn-secondary'; ?>">All</a>
         <a href="/rooms?type=single" class="btn <?php echo (($_GET['type'] ?? '') === 'single') ? 'btn-primary' : 'btn-secondary'; ?>">Single</a>

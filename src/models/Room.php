@@ -99,11 +99,27 @@ class Room
     }
 
     // Delete room by ID, returns true on success
-    public function delete($id)
+    // Get all rooms (alias for findAll)
+    public function getAll()
     {
-        $query = "DELETE FROM rooms WHERE id = :id";
+        return $this->findAll();
+    }
+
+    // Get statistics for room types
+    public function getTypeStats()
+    {
+        $query = "SELECT room_type, COUNT(*) as count FROM rooms GROUP BY room_type";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        return $stmt->execute();
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    // Get statistics for availability
+    public function getAvailabilityStats()
+    {
+        $query = "SELECT is_available, COUNT(*) as count FROM rooms GROUP BY is_available";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 }

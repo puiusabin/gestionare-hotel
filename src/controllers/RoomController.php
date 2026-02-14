@@ -23,6 +23,14 @@ class RoomController
             $rooms = $this->roomModel->findAll();
         }
 
+        // Fetch stats if user is admin
+        $typeStats = [];
+        $availabilityStats = [];
+        if (isLoggedIn() && getCurrentUser()['role'] === 'admin') {
+            $typeStats = $this->roomModel->getTypeStats();
+            $availabilityStats = $this->roomModel->getAvailabilityStats();
+        }
+
         $title = 'Rooms - Hotel Reservation System';
         require_once __DIR__ . '/../views/layout/header.php';
         require_once __DIR__ . '/../views/rooms/index.php';
