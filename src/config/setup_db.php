@@ -3,10 +3,31 @@
 require_once __DIR__ . '/../includes/env.php';
 require_once __DIR__ . '/database.php';
 
+// Special connection to create the database if it doesn't exist
 $db = new Database();
+$host = env('MYSQLHOST', '127.0.0.1');
+$user = env('MYSQLUSER', 'root');
+$pass = env('MYSQLPASSWORD', '');
+$port = env('MYSQLPORT', '3306');
+$dbName = env('MYSQLDATABASE', 'hotel_reservation');
+
+try {
+    // Connect to MySQL server without selecting a database
+    $pdo = new PDO("mysql:host=$host;port=$port;charset=utf8mb4", $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    echo "Connected to server. Ensuring database '$dbName' exists...<br>";
+    $pdo->exec("CREATE DATABASE IF NOT EXISTS `$dbName` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    echo "Database ensures/created.<br>";
+} catch (PDOException $e) {
+    echo "Note: Could not ensure database exists via server connection: " . $e->getMessage() . "<br>";
+    echo "Attempting to continue with default connection...<br>";
+}
+
+// Now use the standard connection
 $conn = $db->getConnection();
 
-echo "Starting database setup...
+echo "Starting table setup...<br>
 ";
 
 // 1. Create Tables
