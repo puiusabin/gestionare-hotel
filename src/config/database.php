@@ -6,6 +6,7 @@ class Database
     private $db_name;
     private $username;
     private $password;
+    private $port;
     private $conn = null;
 
     public function __construct()
@@ -49,9 +50,8 @@ class Database
                     ]
                 );
             } catch (PDOException $e) {
-                // On Railway, don't die with the full message to avoid leaking hostnames, 
-                // but for debugging we'll keep it simple here.
-                die("Connection failed. Please ensure your database is provisioned and linked.");
+                // Return descriptive error for debugging (you can hide this later)
+                die("Connection failed: " . $e->getMessage() . " (Host: {$this->host}, Port: {$this->port})");
             }
         }
         return $this->conn;
