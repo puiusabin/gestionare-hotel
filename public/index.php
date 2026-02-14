@@ -21,7 +21,9 @@ $routes = [
         '/rooms/create' => ['controller' => 'RoomController', 'action' => 'create'],
         '/rooms/edit' => ['controller' => 'RoomController', 'action' => 'edit'],
         '/rooms/delete' => ['controller' => 'RoomController', 'action' => 'delete'],
-        '/contact' => ['controller' => 'ContactController', 'action' => 'index']
+        '/contact' => ['controller' => 'ContactController', 'action' => 'index'],
+        '/export/csv' => ['controller' => 'ExportController', 'action' => 'csv'],
+        '/export/pdf' => ['controller' => 'ExportController', 'action' => 'pdf']
     ],
     'POST' => [
         '/register' => ['controller' => 'AuthController', 'action' => 'register'],

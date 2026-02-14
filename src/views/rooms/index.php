@@ -1,5 +1,12 @@
-<div class="rooms-container">
-    <h1>Available Rooms</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Available Rooms</h1>
+        <?php if (isLoggedIn() && getCurrentUser()['role'] === 'admin'): ?>
+            <div class="btn-group">
+                <a href="/export/csv" class="btn btn-outline-success btn-sm">Export CSV</a>
+                <a href="/export/pdf" class="btn btn-outline-danger btn-sm">Export PDF</a>
+            </div>
+        <?php endif; ?>
+    </div>
 
     <div class="room-filters">
         <a href="/rooms" class="btn <?php echo !isset($_GET['type']) ? 'btn-primary' : 'btn-secondary'; ?>">All</a>

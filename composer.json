@@ -3,7 +3,8 @@
     "description": "Hotel Reservation System",
     "type": "project",
     "require": {
-        "phpmailer/phpmailer": "^6.9"
+        "phpmailer/phpmailer": "^6.9",
+        "fpdf/fpdf": "^1.86"
     },
     "authors": [
         {
