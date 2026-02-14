@@ -9,6 +9,9 @@ define('RECAPTCHA_SECRET_KEY', $recaptchaConfig['secret_key']);
 
 function isRecaptchaEnabled()
 {
+    if (env('APP_ENV') === 'local') {
+        return false;
+    }
     return !empty(RECAPTCHA_SITE_KEY) && !empty(RECAPTCHA_SECRET_KEY);
 }
 
