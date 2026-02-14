@@ -1,5 +1,9 @@
 {
   "$schema": "https://railway.app/railway.json",
+  "build": {
+    "builder": "DOCKER",
+    "dockerfilePath": "Dockerfile"
+  },
   "deploy": {
     "numReplicas": 1,
     "sleepApplication": false
