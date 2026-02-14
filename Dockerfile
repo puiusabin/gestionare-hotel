@@ -13,6 +13,9 @@ RUN docker-php-ext-install pdo pdo_mysql zip
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
+# Suppress ServerName warning
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
 # Set working directory
 WORKDIR /var/www/html
 
