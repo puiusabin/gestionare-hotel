@@ -1,6 +1,8 @@
 <?php
 
+require_once __DIR__ . '/../src/includes/env.php';
 require_once __DIR__ . '/../src/includes/session.php';
+require_once __DIR__ . '/../src/includes/weather.php';
 require_once __DIR__ . '/../src/config/database.php';
 
 startSession();
