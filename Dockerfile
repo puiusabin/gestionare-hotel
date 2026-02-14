@@ -13,10 +13,6 @@ RUN docker-php-ext-install pdo pdo_mysql zip
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Force MPM Prefork and disable others to prevent "More than one MPM loaded"
-# This is done in one step to be sure
-RUN a2dismod mpm_event mpm_worker || true && a2enmod mpm_prefork || true
-
 # Set working directory
 WORKDIR /var/www/html
 
@@ -40,7 +36,11 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.
 # Final permissions fix
 RUN chown -R www-data:www-data /var/www/html
 
+# Prepare custom entrypoint
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 EXPOSE 80
 
-# Use the default entrypoint
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
