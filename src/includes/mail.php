@@ -1,40 +1,31 @@
 <?php
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+use Resend\Client as ResendClient;
 
 function sendEmail($to, $subject, $message, $fromEmail = null, $fromName = null)
 {
-    $mail = new PHPMailer(true);
+    $apiKey = env('RESEND_API_KEY');
+    if (!$apiKey) {
+        error_log("Resend API key not configured");
+        return false;
+    }
 
     try {
-        // Server settings
-        $mail->isSMTP();
-        $mail->Host       = env('MAIL_HOST', 'smtp.gmail.com');
-        $mail->SMTPAuth   = true;
-        $mail->Username   = env('MAIL_USERNAME');
-        $mail->Password   = env('MAIL_PASSWORD');
-        $mail->SMTPSecure = env('MAIL_ENCRYPTION', PHPMailer::ENCRYPTION_STARTTLS);
-        $mail->Port       = env('MAIL_PORT', 587);
-        $mail->Timeout    = 10;  // 10 second timeout to prevent hangs
+        $resend = ResendClient::client($apiKey);
 
-        // Recipients
-        $mail->setFrom(
-            $fromEmail ?? env('MAIL_FROM_ADDRESS', 'admin@hotel.com'),
-            $fromName ?? env('MAIL_FROM_NAME', 'Hotel Reservation')
-        );
-        $mail->addAddress($to);
+        $from = $fromEmail ?? env('MAIL_FROM_ADDRESS', 'noreply@php.blanc.is');
+        $fromName = $fromName ?? env('MAIL_FROM_NAME', 'Hotel Reservation');
 
-        // Content
-        $mail->isHTML(true);
-        $mail->Subject = $subject;
-        $mail->Body    = $message;
-        $mail->AltBody = strip_tags($message);
+        $resend->emails->send([
+            'from' => "{$fromName} <{$from}>",
+            'to' => [$to],
+            'subject' => $subject,
+            'html' => $message,
+        ]);
 
-        $mail->send();
         return true;
     } catch (Exception $e) {
-        error_log("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
+        error_log("Resend error: " . $e->getMessage());
         return false;
     }
 }
