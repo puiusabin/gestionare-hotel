@@ -87,7 +87,11 @@
                     <?php if (isLoggedIn() && getCurrentUser()['role'] === 'admin'): ?>
                         <div class="room-actions">
                             <a href="/rooms/edit?id=<?php echo $room['id']; ?>" class="btn btn-secondary">Edit</a>
-                            <a href="/rooms/delete?id=<?php echo $room['id']; ?>" class="btn btn-secondary" onclick="return confirm('Are you sure?')">Delete</a>
+                            <form method="POST" action="/rooms/delete" style="display:inline;">
+                                <input type="hidden" name="csrf_token" value="<?php echo generateCsrfToken(); ?>">
+                                <input type="hidden" name="id" value="<?php echo $room['id']; ?>">
+                                <button type="submit" class="btn btn-secondary" onclick="return confirm('Are you sure you want to delete this room?')">Delete</button>
+                            </form>
                         </div>
                     <?php endif; ?>
                 </div>

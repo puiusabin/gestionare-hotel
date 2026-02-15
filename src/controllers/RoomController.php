@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../models/Room.php';
+require_once __DIR__ . '/../includes/room_validation.php';
 
 // Handles room CRUD operations
 class RoomController
@@ -86,31 +87,7 @@ class RoomController
         $description = trim($_POST['description'] ?? '');
         $isAvailable = isset($_POST['is_available']) ? 1 : 0;
 
-        $errors = [];
-
-        if (empty($roomNumber)) {
-            $errors[] = 'Room number is required';
-        }
-
-        // Whitelist validation for room_type
-        $allowedRoomTypes = ['single', 'double', 'suite'];
-        if (empty($roomType)) {
-            $errors[] = 'Room type is required';
-        } elseif (!in_array($roomType, $allowedRoomTypes, true)) {
-            $errors[] = 'Invalid room type';
-        }
-
-        if (empty($capacity)) {
-            $errors[] = 'Capacity is required';
-        } elseif (!is_numeric($capacity) || $capacity < 1) {
-            $errors[] = 'Capacity must be at least 1';
-        }
-
-        if (empty($pricePerNight)) {
-            $errors[] = 'Price per night is required';
-        } elseif (!is_numeric($pricePerNight) || $pricePerNight < 0) {
-            $errors[] = 'Price must be a positive number';
-        }
+        $errors = validateRoomData($roomNumber, $roomType, $capacity, $pricePerNight);
 
         if (!empty($errors)) {
             setFlashMessage('error', implode('. ', $errors));
@@ -219,31 +196,7 @@ class RoomController
         $description = trim($_POST['description'] ?? '');
         $isAvailable = isset($_POST['is_available']) ? 1 : 0;
 
-        $errors = [];
-
-        if (empty($roomNumber)) {
-            $errors[] = 'Room number is required';
-        }
-
-        // Whitelist validation for room_type
-        $allowedRoomTypes = ['single', 'double', 'suite'];
-        if (empty($roomType)) {
-            $errors[] = 'Room type is required';
-        } elseif (!in_array($roomType, $allowedRoomTypes, true)) {
-            $errors[] = 'Invalid room type';
-        }
-
-        if (empty($capacity)) {
-            $errors[] = 'Capacity is required';
-        } elseif (!is_numeric($capacity) || $capacity < 1) {
-            $errors[] = 'Capacity must be at least 1';
-        }
-
-        if (empty($pricePerNight)) {
-            $errors[] = 'Price per night is required';
-        } elseif (!is_numeric($pricePerNight) || $pricePerNight < 0) {
-            $errors[] = 'Price must be a positive number';
-        }
+        $errors = validateRoomData($roomNumber, $roomType, $capacity, $pricePerNight);
 
         if (!empty($errors)) {
             setFlashMessage('error', implode('. ', $errors));
@@ -277,7 +230,13 @@ class RoomController
     {
         requireAdmin();
 
-        $id = $_GET['id'] ?? null;
+        if (!validateCsrfToken()) {
+            setFlashMessage('error', 'Invalid security token');
+            header('Location: /rooms');
+            exit;
+        }
+
+        $id = $_POST['id'] ?? null;
 
         if (!$id) {
             setFlashMessage('error', 'Room ID is required');

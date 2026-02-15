@@ -16,6 +16,7 @@ function sendEmail($to, $subject, $message, $fromEmail = null, $fromName = null)
         $mail->Password   = env('MAIL_PASSWORD');
         $mail->SMTPSecure = env('MAIL_ENCRYPTION', PHPMailer::ENCRYPTION_STARTTLS);
         $mail->Port       = env('MAIL_PORT', 587);
+        $mail->Timeout    = 10;  // 10 second timeout to prevent hangs
 
         // Recipients
         $mail->setFrom(

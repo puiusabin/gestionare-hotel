@@ -50,8 +50,13 @@ class Database
                     ]
                 );
             } catch (PDOException $e) {
-                // Return descriptive error for debugging (you can hide this later)
-                die("Connection failed: " . $e->getMessage() . " (Host: {$this->host}, Port: {$this->port})");
+                error_log("Database connection failed: " . $e->getMessage());
+
+                if (env('APP_ENV') === 'production') {
+                    die("Database connection error. Please contact support.");
+                } else {
+                    die("Connection failed: " . $e->getMessage() . " (Host: {$this->host}, Port: {$this->port})");
+                }
             }
         }
         return $this->conn;

@@ -16,7 +16,7 @@ class ExportController
     {
         requireAdmin();
 
-        $rooms = $this->roomModel->getAll();
+        $rooms = $this->roomModel->findAll();
 
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=rooms_export_' . date('Y-m-d') . '.csv');
@@ -32,7 +32,7 @@ class ExportController
                 $room['room_number'],
                 ucfirst($room['room_type']),
                 $room['capacity'],
-                $room['price'],
+                $room['price_per_night'],
                 $room['is_available'] ? 'Available' : 'Unavailable',
                 $room['description']
             ]);
@@ -46,7 +46,7 @@ class ExportController
     {
         requireAdmin();
 
-        $rooms = $this->roomModel->getAll();
+        $rooms = $this->roomModel->findAll();
 
         // Create PDF
         $pdf = new FPDF();
@@ -70,7 +70,7 @@ class ExportController
             $pdf->Cell(30, 10, $room['room_number'], 1);
             $pdf->Cell(40, 10, ucfirst($room['room_type']), 1);
             $pdf->Cell(30, 10, $room['capacity'], 1, 0, 'C');
-            $pdf->Cell(40, 10, '$' . number_format($room['price'], 2), 1, 0, 'R');
+            $pdf->Cell(40, 10, '$' . number_format($room['price_per_night'], 2), 1, 0, 'R');
             $pdf->Cell(50, 10, $room['is_available'] ? 'Available' : 'Unavailable', 1, 1, 'C');
         }
 

@@ -10,8 +10,9 @@ function getWeatherData($city = 'Bucharest')
     $url = "https://api.openweathermap.org/data/2.5/weather?q=" . urlencode($city) . "&units=metric&appid=" . $apiKey;
 
     try {
-        $response = @file_get_contents($url);
+        $response = file_get_contents($url);
         if ($response === false) {
+            error_log("Failed to fetch weather data from {$url}");
             return null;
         }
 

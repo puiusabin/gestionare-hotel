@@ -11,6 +11,11 @@ $pass = env('MYSQLPASSWORD', '');
 $port = env('MYSQLPORT', '3306');
 $dbName = env('MYSQLDATABASE', 'hotel_reservation');
 
+// Validate database name to prevent SQL injection
+if (!preg_match('/^[a-zA-Z0-9_]+$/', $dbName)) {
+    die("Invalid database name format. Only alphanumeric characters and underscores allowed.");
+}
+
 try {
     // Connect to MySQL server without selecting a database
     $pdo = new PDO("mysql:host=$host;port=$port;charset=utf8mb4", $user, $pass);

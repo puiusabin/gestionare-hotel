@@ -30,7 +30,9 @@
                         <label for="message" class="form-label">Message</label>
                         <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
                     </div>
-                    
+
+                    <?php recaptchaField(); ?>
+
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary">Send Message</button>
                     </div>

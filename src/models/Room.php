@@ -99,10 +99,12 @@ class Room
     }
 
     // Delete room by ID, returns true on success
-    // Get all rooms (alias for findAll)
-    public function getAll()
+    public function delete($id)
     {
-        return $this->findAll();
+        $query = "DELETE FROM rooms WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
     }
 
     // Get statistics for room types

@@ -6,11 +6,12 @@
 function validateReferer()
 {
     if (!isset($_SERVER['HTTP_REFERER'])) {
-        return true;
+        return true;  // Allow if no referer (legitimate direct access)
     }
 
-    $referer = $_SERVER['HTTP_REFERER'];
+    $referer = parse_url($_SERVER['HTTP_REFERER']);
     $host = $_SERVER['HTTP_HOST'];
 
-    return strpos($referer, $host) !== false;
+    // Exact host match only
+    return isset($referer['host']) && $referer['host'] === $host;
 }

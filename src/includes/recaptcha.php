@@ -23,7 +23,11 @@ function isRecaptchaEnabled()
     if (env('APP_ENV') === 'local') {
         return false;
     }
-    return !empty(RECAPTCHA_SITE_KEY) && !empty(RECAPTCHA_SECRET_KEY);
+    $enabled = !empty(RECAPTCHA_SITE_KEY) && !empty(RECAPTCHA_SECRET_KEY);
+    if (!$enabled && env('APP_ENV') === 'production') {
+        error_log("WARNING: reCAPTCHA not configured in production");
+    }
+    return $enabled;
 }
 
 function validateRecaptcha()
@@ -58,10 +62,11 @@ function validateRecaptcha()
     ];
 
     $context = stream_context_create($options);
-    $result = @file_get_contents($url, false, $context);
+    $result = file_get_contents($url, false, $context);
 
     if ($result === false) {
-        return true; // Allow if API is unreachable
+        error_log("reCAPTCHA API unreachable");
+        return env('APP_ENV') !== 'production'; // Fail closed in production
     }
 
     $resultJson = json_decode($result, true);
