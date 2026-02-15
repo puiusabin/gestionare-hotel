@@ -63,7 +63,7 @@ class ContactController
                       <p><strong>Subject:</strong> " . htmlspecialchars($subject) . "</p>
                       <p><strong>Message:</strong><br>" . nl2br(htmlspecialchars($message)) . "</p>";
 
-        if (sendEmail($to, "Contact: $subject", $emailBody, $email, $name)) {
+        if (sendEmail($to, "Contact: $subject", $emailBody)) {
             setFlashMessage('success', 'Your message has been sent successfully!');
         } else {
             setFlashMessage('error', 'Failed to send message. Please try again later.');
