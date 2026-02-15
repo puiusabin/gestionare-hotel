@@ -1,7 +1,5 @@
 <?php
 
-use Resend\Client as ResendClient;
-
 function sendEmail($to, $subject, $message, $fromEmail = null, $fromName = null)
 {
     $apiKey = env('RESEND_API_KEY');
@@ -11,7 +9,7 @@ function sendEmail($to, $subject, $message, $fromEmail = null, $fromName = null)
     }
 
     try {
-        $resend = ResendClient::client($apiKey);
+        $resend = \Resend::client($apiKey);
 
         $from = $fromEmail ?? env('MAIL_FROM_ADDRESS', 'noreply@php.blanc.is');
         $fromName = $fromName ?? env('MAIL_FROM_NAME', 'Hotel Reservation');

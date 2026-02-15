@@ -1,4 +1,5 @@
 # Configuration files with secrets
 src/config/recaptcha.php
+.env
 vendor/
 composer.lock
